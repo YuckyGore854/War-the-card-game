@@ -72,9 +72,25 @@ while not doExit: # loop +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     # game logic -----------------------------------------------------
 
-    if turn == True and len(p1hand) > 0 and len(p2hand) > 0:
+    if len(p1hand) - 1 < 0 or len(p2hand) - 1 < 0: # if the players run out of cards
+        doExit = True
+        if p1Discard[len(p1Discard)-1].number > p1Discard[len(p1Discard)-1].number: # if player 1's final card is bigger
+            print("Player 1 wins once and for all!")
+        else:
+            print("Player 2 wins it all!")
 
-    if p1hand[len(p1hand)]-1 > len(p2hand):
+    if turn == True and len(p1hand) > 0 and len(p2hand) > 0:
+        if p1hand[len(p1hand)-1].number > p2hand[len(p2hand)-1].number:
+            print("Player 1 wins round!")
+            p1Discard.append(p1hand[len(p1hand)-1])
+            p2Discard.append(p2hand[len(p2hand)-1])
+            p1hand.pop(len(p1hand)-1)
+            p2hand.pop(len(p2hand)-1)
+        else:
+            p2Discard.append(p1hand[len(p1hand)-1])
+            p1Discard.append(p2hand[len(p2hand)-1])
+            p1hand.pop(len(p1hand)-1)
+            p2hand.pop(len(p2hand)-1)
 
     # render --------------------------------------------------------------------------
     screen.fill((50,205,50)) # fills the screen to black every frame
@@ -86,9 +102,9 @@ while not doExit: # loop +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         p2hand[i].draw(300,50)
 
     for i in range(0,len(p1Discard)):
-        p1Discard[i].draw(100, 200)
+        p1Discard[i].draw(100+i*10, 200)
     for i in range(0,len(p2Discard)):
-        p2Discard[i].draw(300, 200)
+        p2Discard[i].draw(300+i*10, 380)
 
     
     #for i in range(52): # goes through 
